@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+<style>
+ 
+  
+  .card2,.card1,.card3{
+    background-color: aquamarine;
+  
+  }
+  .card4,.card5,.card6{
+    background-color: #df3a3a;
+  }
+  .card7,.card8,.card9{
+    background-color: #6390f0;
+  }
+  .card10,.card11,.card12,.card13,.card14,.card15{
+    background-color: #a6b91a;
+  }
+  
+  .card18,.card16,.card17,.card19,.card20,.card21,.card22{
+    background-color: #a8a77a;
+  }
+  .card24,.card23,.card29,.card31,.card30{
+    background-color: #a33ea1;
+  }
+  .card28,.card27{
+    background-color: #e28f65;
+  }
+  .card25,.card26{
+    background-color: #f6cf57;
+  }
+  #hasil{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .cardbox{
+    margin: 10px;
+    padding: 4px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  
+  h1{
+    text-align: center;
+  }
+  
+
+</style>
+    <title>Pokemon</title>
+  </head>
+  
+  <div class="container">
+    <h1>Get pokemons!</h1>
+    <button onclick="pokemon()">Get</button>
+    <div class="oncard">
+     <div id="hasil"></div>
+    </div>
+    </div>
+    <script>
+      async function pokemon() {
+        const response = await fetch(
+          "https://pokeapi.co/api/v2/pokemon?limit=30",
+          {
+            method: "GET",
+          }
+        );
+        const json = await response.json();
+        for (let i = 0; i <= json.results.length; i++) {
+          const getUrl = json.results[i];
+          const response2 = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${i + 1}/`,
+            { method: "GET" }
+          );
+          const json2 = await response2.json();
+
+          const idData = json2.id;
+          console.log(idData);
+          const name = json2.name;
+          console.log(name);
+          const imgPoke = json2.sprites.front_default;
+          console.log(imgPoke);
+          const typePoke = json2.types[0].type.name;
+          console.log(typePoke);
+          const getDiv = document.getElementById("hasil");
+          const newPara1 = document.createElement("p");
+          const newPara2 = document.createElement("p");
+          const newImg = document.createElement("img");
+          newImg.setAttribute("src", imgPoke);
+          newPara1.innerHTML = `${idData}:${name}`;
+          newPara2.innerHTML = `type:${typePoke}`;
+            // for(let i=1;i<=30;i++){
+          let card=document.createElement('div');
+          card.classList.add(`card${i+1}`); 
+          card.classList.add('cardbox');
+
+            
+          card.append(newPara1);
+          card.append(newImg);
+          card.append(newPara2);
+          getDiv.append(card)
+            }
+        }
+      // }
+    </script>
+  </body>
+</html>
